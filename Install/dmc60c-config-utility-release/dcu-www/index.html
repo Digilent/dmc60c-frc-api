@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>DMC60c Configuration Utility</title>
+    <link rel="shortcut icon" href="./favicon.png" />
+
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row header">
+            <div id="sidebar-header" class="col-2">
+                <p class="form-label">Devices</p>
+            </div>
+
+            <div id="panel-header" class="col-10 inset">
+                <div id="title">DMC60c Configuration Utility</div>
+
+                <div>
+                    <button type="button" class="block-btn" onclick="app.restoreDefaults()">
+                        <img src="./refresh.svg" />Restore Defaults
+                    </button>
+
+                    <button type="button" class="block-btn" onclick="app.updateParams()">
+                        <img src="./save.svg" />Save
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row x-main">
+            <div class="col-2 sidebar">
+                <div id="device-cards" class="card-list">
+                    <!-- new device cards are injected here -->
+                </div>
+
+                <div id="logo">
+                    <img src="./digilent-logo_ni-color_on_white.svg" />
+                </div>
+            </div>
+
+            <!-- If no devices are connected -->
+            <div id="no-devices" class="col-10 inset">
+                <p>No devices are connected</p>
+            </div>
+
+            <!-- If at least one device is connected -->
+            <div id="config-panel" class="col-10 inset d-none">
+                <div class="row flex-shrink-0">
+
+                    <div class="col-4 col-xl-3 offset-xl-1 flex-column">
+                        <div class="param-wrapper">
+                            <div class="param inset">
+                                <p class="form-label">Device</p>
+                                <form id="device-info">
+                                    <div class="row">
+                                        <label class="label col-4">Device ID</label>
+                                        <input type="text" name="DevNum" class="digilent-input col-7">
+                                    </div>
+
+                                    <div class="row">
+                                        <label class="label col-4">Device Name</label>
+                                        <input type="text" name="DevName" class="digilent-input col-7">
+                                    </div>
+
+                                    <div class="row">
+                                        <label class="label col-4 break-word">Manufacture Date</label>
+                                        <input type="text" name="ManDate" class="digilent-input col-7" disabled=true>
+                                    </div>
+
+                                    <div class="row">
+                                        <label class="label col-4 break-word">Serial Number</label>
+                                        <input type="text" name="SN" class="digilent-input col-7" disabled=true>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="param-wrapper">
+                            <div class="param inset">
+                                <p class="form-label">Current Limits</p>
+                                <form class="device-params">
+                                    <div class="row">
+                                        <label class="label col-5">Continuous Current Limit</label>
+                                        <input type="text" name="continuousCurrentLimit" class="digilent-input col-5">
+                                        <div class="unit-label col-2">amps</div>
+                                    </div>
+
+                                    <div class="row">
+                                        <label class="label col-5">Peak Current Limit</label>
+                                        <input type="text" name="peakCurrentLimit" class="digilent-input col-5">
+                                        <div class="unit-label col-2">amps</div>
+                                    </div>
+
+                                    <div class="row">
+                                        <label class="label col-5">Peak Current Duration</label>
+                                        <input type="text" name="peakCurrentDuration" class="digilent-input col-5">
+                                        <div class="unit-label col-2">ms</div>
+                                    </div>
+
+                                    <div class="row">
+                                        <label class="label col-5">Current Limit Enable</label>
+                                        <select class="digilent-input col-5" name="currentLimitEnable">
+                                            <option value="Disabled">Disabled</option>
+                                            <option value="Enabled">Enabled</option>
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="param-wrapper">
+                            <div class="param inset">
+                                <p class="form-label">Limit Switches</p>
+                                <form class="device-params">
+                                    <div class="row">
+                                        <label class="label col-5">Forward Limit Switch</label>
+                                        <select class="digilent-input col-7" name="limitSwtFwdType">
+                                            <option value="Normally Open">Normally Open</option>
+                                            <option value="Normally Closed">Normally Closed</option>
+                                        </select>
+
+                                        <input id="limitSwtFwdEnable" class="col-1 offset-5" type="checkbox" name="limitSwtFwdEnable" checked>
+                                        <label class="col-5 checkbox-label" for="limitSwtFwdEnable">Enable</label>
+                                    </div>
+
+                                    <div class="row">
+                                        <label class="label col-5">Reverse Limit Switch</label>
+                                        <select class="digilent-input col-7" name="limitSwtRevType">
+                                            <option value="Normally Open">Normally Open</option>
+                                            <option value="Normally Closed">Normally Closed</option>
+                                        </select>
+
+                                        <input id="limitSwtRevEnable" class="col-1 offset-5" type="checkbox" name="limitSwtRevEnable" checked>
+                                        <label class="col-5 checkbox-label" for="limitSwtRevEnable">Enable</label>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="param-wrapper full-height">
+                            <div class="param inset full-height flex-item">
+                                <div class="row"></div>
+                                <p class="form-label">PID Tuning</p>
+                                <div class="row"></div>
+                                <div class="row">
+                                    <div class="col-3 offset-4 center">Slot 0</div>
+                                    <div class="col-3 offset-1 center">Slot 1</div>
+                                </div>
+                                <form class="flex-item flex-content">
+                                    <div class="row">
+                                        <label for="p-gain" class="label col-4">P Gain</label>
+                                        <input type="text" name="ProportionalGain" class="digilent-input col-3 slot-0">
+                                        <input type="text" name="ProportionalGain" class="digilent-input col-3 offset-1 slot-1">
+                                    </div>
+
+                                    <div class="row">
+                                        <label for="i-gain" class="label col-4">I Gain</label>
+                                        <input type="text" name="IntegralGain" class="digilent-input col-3 slot-0">
+                                        <input type="text" name="IntegralGain" class="digilent-input col-3 offset-1 slot-1">
+                                    </div>
+
+                                    <div class="row">
+                                        <label for="d-gain" class="label col-4">D Gain</label>
+                                        <input type="text" name="DerivativeGain" class="digilent-input col-3 slot-0">
+                                        <input type="text" name="DerivativeGain" class="digilent-input col-3 offset-1 slot-1">
+                                    </div>
+        
+                                    <div class="row">
+                                        <label for="p-gain" class="label col-4">Feed-Forward Gain</label>
+                                        <input type="text" name="FwdGainConst" class="digilent-input col-3 slot-0">
+                                        <input type="text" name="FwdGainConst" class="digilent-input col-3 offset-1 slot-1">
+                                    </div>
+
+                                    <div class="row">
+                                        <label for="p-gain" class="label col-4">I Zone</label>
+                                        <input type="text" name="IntegralAccLimit" class="digilent-input col-3 slot-0">
+                                        <input type="text" name="IntegralAccLimit" class="digilent-input col-3 offset-1 slot-1">
+                                    </div>
+
+                                    <div class="row">
+                                        <label for="p-gain" class="label col-4">Ramp Rate</label>
+                                        <input type="text" name="RampRate" class="digilent-input col-3 slot-0">
+                                        <input type="text" name="RampRate" class="digilent-input col-3 offset-1 slot-1">
+                                    </div>
+
+                                    <div class="row">
+                                        <label class="label col-4">Allowable Error</label>
+                                        <input type="text" name="AllowableError" class="digilent-input col-3 slot-0">
+                                        <input type="text" name="AllowableError" class="digilent-input col-3 offset-1 slot-1">
+                                    </div>
+
+                                    <div class="row">
+                                        <label class="label col-4">Forward Max Duty Cycle</label>
+                                        <input type="text" name="FwdMaxDutyCycle" class="digilent-input col-3 slot-0">
+                                        <input type="text" name="FwdMaxDutyCycle" class="digilent-input col-3 offset-1 slot-1">
+                                    </div>
+
+                                    <div class="row">
+                                        <label class="label col-4">Reverse Max Duty Cycle</label>
+                                        <input type="text" name="RevMaxDutyCycle" class="digilent-input col-3 slot-0">
+                                        <input type="text" name="RevMaxDutyCycle" class="digilent-input col-3 offset-1 slot-1">
+                                    </div>
+
+                                    <div class="row">
+                                        <label class="label col-4">Forward Nominal Duty Cycle</label>
+                                        <input type="text" name="FwdNominalDutyCycle" class="digilent-input col-3 slot-0">
+                                        <input type="text" name="FwdNominalDutyCycle" class="digilent-input col-3 offset-1 slot-1">
+                                    </div>
+
+                                    <div class="row">
+                                        <label class="label col-4">Reverse Nominal Duty Cycle</label>
+                                        <input type="text" name="RevNominalDutyCycle" class="digilent-input col-3 slot-0">
+                                        <input type="text" name="RevNominalDutyCycle" class="digilent-input col-3 offset-1 slot-1">
+                                    </div>
+                                    <div class="row"></div>
+                                    <div class="row"></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-4 col-xl-3">
+                        <div class="param-wrapper">
+                            <div class="param inset">
+                                <p class="form-label">Soft Limits</p>
+                                <form class="device-params">
+                                    <div class="row">
+                                        <label class="label col-5">Forward Soft Limit Threshold</label>
+                                        <input type="text" name="limitSoftFwdThreshold" class="digilent-input col-6">
+
+                                        <input id="limitSoftFwdEnable" class="col-1 offset-5" type="checkbox" name="limitSoftFwdEnable" checked>
+                                        <label class="col-5 checkbox-label" for="limitSoftFwdEnable">Enable</label>
+                                    </div>
+
+                                    <div class="row">
+                                        <label class="label col-5">Reverse Soft Limit Threshold</label>
+                                        <input type="text" name="limitSoftRevThreshold" class="digilent-input col-6">
+
+                                        <input id="limitSoftRevEnable" class="col-1 offset-5" type="checkbox" name="limitSoftRevEnable" checked>
+                                        <label class="col-5 checkbox-label" for="limitSoftRevEnable">Enable</label>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="param-wrapper">
+                            <div class="param inset">
+                                <p class="form-label">Faults</p>
+
+                                <div class="row justify-content-between">
+                                    <label class="label col-4"></label>
+                                    <div class="col-2 col-label">
+                                        Active
+                                    </div>
+                                    <div class="col-2 col-label">
+                                        Sticky
+                                    </div>
+                                    <div class="col-2 col-label">
+                                        Count
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-between">
+                                    <label class="label col-4">Over Temperature</label>
+                                    <div class="col-2">
+                                        <span id="overTempActive" class="light"></span>
+                                    </div>
+                                    <div class="col-2">
+                                        <span id="overTempSticky" class="light"></span>
+                                    </div>
+                                    <input id="overTempCount" type="text" name="" value="0" disabled class="count col-2">
+                                </div>
+
+                                <div class="row justify-content-between">
+                                    <label class="label col-4">Under Voltage</label>
+                                    <div class="col-2">
+                                        <span id="underVoltageActive" class="light"></span>
+                                    </div>
+                                    <div class="col-2">
+                                        <span id="underVoltageSticky" class="light"></span>
+                                    </div>
+                                    <input id="underVoltageCount" type="text" name="" value="0" disabled class="count col-2">
+                                </div>
+
+                                <div class="row justify-content-between">
+                                    <label class="label col-4">Comm</label>
+                                    <div class="col-2">
+                                        <span id="commActive" class="light"></span>
+                                    </div>
+                                    <div class="col-2">
+                                        <span id="commSticky" class="light"></span>
+                                    </div>
+                                    <input id="commCount" type="text" name="" value="0" disabled class="count col-2">
+                                </div>
+
+                                <div class="row justify-content-center">
+                                    <button type="button" class="block-btn" onclick="app.clearFaults()">
+                                        Clear All
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row flex-grow-1">
+                    <div class="col-12 col-xl-10 offset-xl-1 console-wrapper">
+                        <div class="fault-reports inset overflow-scroll">
+                            <!-- messages injected here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -- Complete html injected between these tags -->
+        <flash-modal></flash-modal>
+
+        <!-- Modal -- Complete html injected between these tags -->
+        <advanced-modal></advanced-modal>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+#!/bin/bash
+
+WWWDIR="/usr/bin/shared/dcu-www"
+PORT=8000
+
+NAME="DMC60C Configuration Utility"
+DAEMON=/usr/bin/digilent-dcu
+ARGS="--port=$PORT --dir=$WWWDIR"
+USER=admin
+PIDFILE=/var/run/dcu.pid
+
+do_start() {
+    /sbin/start-stop-daemon --start --pidfile $PIDFILE \
+        --make-pidfile \
+        --chuid $USER --exec $DAEMON -- $ARGS > /tmp/dcu-log 2>&1
+}
+
+do_stop() {
+    /sbin/start-stop-daemon --stop --pidfile $PIDFILE --verbose
+}
+
+case "$1" in
+    start)
+        echo "Starting $NAME"
+        sleep 1
+        do_start
+        ;;
+    stop)
+        echo "Stopping $NAME"
+        do_stop
+        ;;
+    restart)
+        echo "Restarting $NAME"
+        do_stop
+        do_start
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart}"
+        exit 1
+        ;;
+esac
+
+exit 0
