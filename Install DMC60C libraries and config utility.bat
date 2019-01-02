@@ -45,6 +45,8 @@ if %ERRORLEVEL% NEQ 0 exit
 
 :LOCAL
 XCOPY /I /Y "Install\*DMC60C.json" "%PUBLIC%\frc2019\vendordeps"
+XCOPY /I /Y /E "Install\maven\*" "%PUBLIC%\frc2019\maven"
+cmd /C "%PUBLIC%\frc2019\maven\MavenMetaDataFixer.bat"
 set KEY_NAME="HKLM\SOFTWARE\WOW6432Node\National Instruments\LabVIEW\18.0"
 set VALUE_NAME=Path
 FOR /F "usebackq tokens=3*" %%A IN (`REG QUERY %KEY_NAME% /v %VALUE_NAME% 2^>nul`) DO (

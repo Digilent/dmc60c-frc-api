@@ -1,7 +1,7 @@
 {
   "fileName": "DMC60C.json",
   "name": "Digilent-DMC60C",
-  "version": "1.0.5",
+  "version": "1.0.11",
   "uuid": "cb311d09-36e9-4143-a032-55bb2b94443b",
   "mavenUrls": [ 
 	"https://s3-us-west-2.amazonaws.com/digilent/Software/DMC60C/"
@@ -11,14 +11,14 @@
     {
       "groupId": "com.digilent.frc",
       "artifactId": "DMC60C-java",
-      "version": "1.0.5"
+      "version": "1.0.11"
     }
   ],
   "jniDependencies": [
 	{
       "groupId": "com.digilent.frc",
       "artifactId": "DMC60C-driver",
-      "version": "1.0.5",
+      "version": "1.0.11",
 	  "skipInvalidPlatforms": false,
       "isJar": false,
       "validPlatforms": [
@@ -32,10 +32,11 @@
     {
       "groupId": "com.digilent.frc",
       "artifactId": "DMC60C-cpp",
-      "version": "1.0.5",
+      "version": "1.0.11",
       "headerClassifier": "headers",
 	  "sharedLibrary": true,
       "libName": "DMC60C",
+	  "sourcesClassifier": "sources",
 	  "skipInvalidPlatforms": true,
       "binaryPlatforms": [
           "linuxathena",
@@ -46,10 +47,11 @@
 	{
       "groupId": "com.digilent.frc",
       "artifactId": "DMC60C-driver",
-      "version": "1.0.5",
+      "version": "1.0.11",
 	  "headerClassifier": "headers",
 	  "sharedLibrary": true,
       "libName": "DMC60CDriver",
+	  "sourcesClassifier": "sources",
 	  "skipInvalidPlatforms": true,
 	  "binaryPlatforms": [
           "linuxathena",
