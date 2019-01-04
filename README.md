@@ -10,3 +10,5 @@ It will then copy the DMC60C.json file to your FRC VSCode directory.
 If Labview is installed, the DMC60C Labview VI library will be copied into user libraries.
 
 Please go to https://reference.digilentinc.com/dmc-60c/getting-started for more detailed instructions on installing the DMC60C config server and API on your roboRIO.
+
+If you have any problems or questions, please visit our FRC forum at https://forum.digilentinc.com/forum/36-frc/
