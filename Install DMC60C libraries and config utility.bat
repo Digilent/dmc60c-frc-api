@@ -53,7 +53,8 @@ FOR /F "usebackq tokens=3*" %%A IN (`REG QUERY %KEY_NAME% /v %VALUE_NAME% 2^>nul
 	set LVdir=%%A %%B
 )
 if defined LVdir (
-	XCOPY /S /Y "Install\Labview\lvlib\*" "%LVdir%\vi.lib\Rock Robotics\WPI\ThirdParty\TopLevel"
+	XCOPY /S /Y "Install\LabVIEW\lvlib\*" "%LVdir%\vi.lib\Rock Robotics\WPI\ThirdParty\TopLevel"
+	XCOPY /S /Y "Examples\LabVIEW\*" "%LVdir%\examples"
 ) else (
 	@echo Labview installation not found.
 )
