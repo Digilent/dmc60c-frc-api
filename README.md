@@ -11,4 +11,6 @@ If Labview is installed, the DMC60C Labview VI library will be copied into user 
 
 Please go to https://reference.digilentinc.com/dmc-60c/getting-started for more detailed instructions on installing the DMC60C config server and API on your roboRIO.
 
+You can also find all information on the DMC60C including firmware updates at https://reference.digilentinc.com/dmc-60c/start
+
 If you have any problems or questions, please visit our FRC forum at https://forum.digilentinc.com/forum/36-frc/
